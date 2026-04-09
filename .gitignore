@@ -210,3 +210,8 @@ __marimo__/
 __pycache__/
 *.py[cod]
 *$py.class
+
+venv/
+.venv/
+env/
+.env/
