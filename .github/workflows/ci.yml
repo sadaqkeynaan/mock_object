@@ -29,10 +29,18 @@ jobs:
       - name: Run flake8
         run: flake8 src/ tests/ --max-line-length=120
 
-      - name: Run stub tests (stub-test branch)
-        if: github.ref == 'refs/heads/stub-test'
-        run: pytest -v -m "stub"
+      - name: Run only stub tests (push to stub-test without PR)
+        if: github.ref == 'refs/heads/stub-test' && github.event_name == 'push'
+        run: pytest -v -m stub
 
-      - name: Run all tests (main + schedule)
-        if: github.ref == 'refs/heads/main' || github.event_name == 'schedule'
+      - name: Run all tests (pull request to main)
+        if: github.event_name == 'pull_request' && github.base_ref == 'refs/heads/main'
+        run: pytest tests/ -v
+
+      - name: Run all tests (push to main after merge)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: pytest tests/ -v
+
+      - name: Run all tests (scheduled)
+        if: github.event_name == 'schedule'
         run: pytest tests/ -v
