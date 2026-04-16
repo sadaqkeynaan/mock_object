@@ -81,4 +81,3 @@ class TestOrderServiceMedMock:
         service.place_order("KUND-1", "kund@example.com", 200.0)
 
         assert payment_mock.charge.call_count == 1
-        
