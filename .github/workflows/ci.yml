@@ -2,9 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, stub-test ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: '0 2 * * 1-5'
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -27,5 +29,10 @@ jobs:
       - name: Run flake8
         run: flake8 src/ tests/ --max-line-length=120
 
-      - name: Run tests
-        run: pytest tests/ -v  
+      - name: Run stub tests (stub-test branch)
+        if: github.ref == 'refs/heads/stub-test'
+        run: pytest -v -m "stub"
+
+      - name: Run all tests (main + schedule)
+        if: github.ref == 'refs/heads/main' || github.event_name == 'schedule'
+        run: pytest tests/ -v
