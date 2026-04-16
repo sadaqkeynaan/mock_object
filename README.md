@@ -33,10 +33,12 @@ De två viktigaste typerna är:
 Beroenden skickas in via konstruktorn (Dependency Injection).
 
 ---
+
 ## Hur testerna körs 
-```` python
+
+```python
 pytest tests/ -v
-````
+```
 
 ## Deltagare 
 Moaz Ameer & Sadaq keynaan
