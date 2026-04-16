@@ -23,6 +23,7 @@ def service(payment_stub, email_stub):
     return OrderService(payment_stub, email_stub)
 
 
+@pytest.mark.stub  # 🔥 DENNA RAD ÄR DET VIKTIGA
 class TestOrderServiceMedStub:
     def test_lyckad_order_returnerar_korrekt_struktur(self, service):
         resultat = service.place_order("KUND-1", "kund@example.com", 299.0)
